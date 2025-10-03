@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo-modulith
+  jpa:
+    generate-ddl: true
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com
+          issuer-uri: https://securetoken.google.com/${app.core.project-id}
