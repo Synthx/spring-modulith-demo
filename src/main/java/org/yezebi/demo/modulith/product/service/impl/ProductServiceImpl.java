@@ -1,5 +1,6 @@
 package org.yezebi.demo.modulith.product.service.impl;
 
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yezebi.demo.modulith.auth.entity.User;
 import org.yezebi.demo.modulith.auth.service.ContextService;
-import org.yezebi.demo.modulith.email.service.EmailService;
+import org.yezebi.demo.modulith.email.EmailService;
+import org.yezebi.demo.modulith.email.model.Email;
+import org.yezebi.demo.modulith.email.model.EmailTemplate;
 import org.yezebi.demo.modulith.product.dto.request.CreateProductRequest;
 import org.yezebi.demo.modulith.product.dto.response.ProductResponse;
 import org.yezebi.demo.modulith.product.entity.Product;
@@ -46,7 +49,10 @@ public class ProductServiceImpl implements ProductService {
 
     product = repository.save(product);
 
-    emailService.sendProductCreated(user, product);
+    final Email email =
+        new Email(
+            user.getEmail(), EmailTemplate.PRODUCT_CREATED, Map.of("product", product.getName()));
+    emailService.send(email);
 
     return ProductResponse.from(product);
   }
