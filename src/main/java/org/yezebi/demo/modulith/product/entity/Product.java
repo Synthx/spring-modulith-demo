@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.yezebi.demo.modulith.auth.entity.User;
+import org.yezebi.demo.modulith.auth.entity.UserEntity;
 import org.yezebi.demo.modulith.core.entity.Auditable;
 import org.yezebi.demo.modulith.product.dto.request.CreateProductRequest;
 
@@ -41,7 +41,7 @@ public class Product extends Auditable {
   private ProductCategory category;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private User user;
+  private UserEntity user;
 
   public static Product from(final CreateProductRequest request) {
     return Product.builder().name(request.name()).price(request.price()).build();

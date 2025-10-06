@@ -19,7 +19,7 @@ import org.yezebi.demo.modulith.core.entity.Auditable;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User extends Auditable {
+public class UserEntity extends Auditable {
   @Id private String id;
 
   @Column(nullable = false, unique = true)
@@ -28,8 +28,8 @@ public class User extends Auditable {
   @Column(nullable = false)
   private String username;
 
-  public static User from(final UserRecord record) {
-    return User.builder()
+  public static UserEntity from(final UserRecord record) {
+    return UserEntity.builder()
         .id(record.getUid())
         .email(record.getEmail())
         .username(record.getDisplayName())

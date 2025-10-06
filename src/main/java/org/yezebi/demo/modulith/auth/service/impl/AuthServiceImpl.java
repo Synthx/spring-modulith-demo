@@ -5,12 +5,12 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yezebi.demo.modulith.auth.ContextService;
 import org.yezebi.demo.modulith.auth.dto.request.CreateUserRequest;
 import org.yezebi.demo.modulith.auth.dto.response.UserResponse;
-import org.yezebi.demo.modulith.auth.entity.User;
+import org.yezebi.demo.modulith.auth.entity.UserEntity;
 import org.yezebi.demo.modulith.auth.repository.UserRepository;
 import org.yezebi.demo.modulith.auth.service.AuthService;
-import org.yezebi.demo.modulith.auth.service.ContextService;
 import org.yezebi.demo.modulith.auth.service.FirebaseService;
 
 @Service
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
   public UserResponse create(final CreateUserRequest request) {
     final UserRecord record =
         firebaseService.createUser(request.email(), request.password(), request.username());
-    User user = User.from(record);
+    UserEntity user = UserEntity.from(record);
 
     user = repository.save(user);
 
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public Optional<UserResponse> findCurrent() {
-    return contextService.getCurrentUser().map(UserResponse::from);
+    return contextService.getCurrentUserId().flatMap(repository::findById).map(UserResponse::from);
   }
 
   @Override
