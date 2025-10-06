@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yezebi.demo.modulith.product.dto.request.CreateProductCategoryRequest;
 import org.yezebi.demo.modulith.product.dto.response.ProductCategoryResponse;
-import org.yezebi.demo.modulith.product.entity.ProductCategory;
+import org.yezebi.demo.modulith.product.entity.ProductCategoryEntity;
 import org.yezebi.demo.modulith.product.repository.ProductCategoryRepository;
 import org.yezebi.demo.modulith.product.service.ProductCategoryService;
 
@@ -26,7 +26,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
   @Override
   @Transactional
   public ProductCategoryResponse create(final CreateProductCategoryRequest request) {
-    ProductCategory category = ProductCategory.from(request);
+    ProductCategoryEntity category = ProductCategoryEntity.from(request);
 
     category = repository.save(category);
 
@@ -34,7 +34,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
   }
 
   @Override
-  public Optional<ProductCategory> findById(final UUID id) {
+  public Optional<ProductCategoryEntity> findById(final UUID id) {
     return repository.findById(id);
   }
 }
